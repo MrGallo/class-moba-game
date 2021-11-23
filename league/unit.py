@@ -1,14 +1,8 @@
 import pygame
-# from team import Team
-# from ability import Ability
-# from stats import Stats
+from team import Team
+from ability import Ability
+from stats import Stats
 
-class Team:
-    pass
-class Ability:
-    pass
-class Stats:
-    pass
 
 class Unit:
     def __init__(self, base_health: int, base_damage: int, base_armor: int, base_range: int, base_speed: int, team: Team, enemy_team: Team) -> None:
