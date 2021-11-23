@@ -24,8 +24,8 @@ class View:
 class Battle(View):
     def __init__(self):
         # Centering player
-        self.pos_x = 1280 // 2 # map width // 2
-        self.pos_y = 720 // 2 # map height // 2
+        self.pos_x = 1280 // 2 # width // 2
+        self.pos_y = 720 // 2 # height // 2
 
         # Player data (should be given from Unit)
         self.speed = 30
