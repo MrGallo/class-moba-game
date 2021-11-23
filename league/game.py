@@ -25,7 +25,7 @@ class Game:
                     running = False
             
             self.current_view.event_loop(events)
-            self.current_view.update()
+            self.current_view.update(self.screen)
             self.current_view.draw(self.screen)
 
             pygame.display.flip()
