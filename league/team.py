@@ -1,2 +1,2 @@
 class Team:
-  pass
+    pass
