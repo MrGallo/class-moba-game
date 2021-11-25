@@ -1,7 +1,8 @@
 import pygame
-from team import Team
-from ability import Ability
-from stats import Stats
+
+from .team import Team
+from .ability import Ability
+from .stats import Stats
 
 class Unit:
     def __init__(self, base_health: int, base_damage: int, base_armor: int, base_range: int, base_speed: int, team: Team, enemy_team: Team) -> None:
@@ -52,3 +53,5 @@ class Unit:
     
     def get_level(self) -> int:
         return self._level
+unit1 = Unit(10, 5 ,14, 19, 35, 'Red', 'Blue')
+print(unit1.get_damage())
