@@ -69,6 +69,14 @@ def test_stats_optional_args():
     assert s.armor == 0
     assert s.range == 6
     assert s.speed == 10
-    
+
+def test_stats_copy():
+    stats1 = Stats(1, 2, 3, 4, 5)
+    stats2 = Stats.copy_stats(stats1)
+    stats2 += Stats(health = 10)
+    assert stats1.health != stats2.health
+    assert stats1.health == 1
+    assert stats2.health == 11
+
 
 

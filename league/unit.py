@@ -7,7 +7,7 @@ from .stats import Stats
 class Unit:
     def __init__(self, base_health: int, base_damage: int, base_armor: int, base_range: int, base_speed: int, team: Team, enemy_team: Team) -> None:
         self._base_stats = Stats(base_health, base_damage, base_armor, base_range, base_speed)
-        self._current_stats = self._base_stats
+        self._current_stats = Stats.copy_stats(self._base_stats)
         self._level = 1
         self._team = team
         self._enemy_team = enemy_team
@@ -49,9 +49,9 @@ class Unit:
         return self._current_stats.range
 
     def get_speed(self) -> int:
+        "Gets the unit's speed"
         return self._current_stats.speed
     
     def get_level(self) -> int:
+        "Gets the unit's level"
         return self._level
-unit1 = Unit(10, 5 ,14, 19, 35, 'Red', 'Blue')
-print(unit1.get_damage())

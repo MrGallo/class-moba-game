@@ -23,3 +23,4 @@ def test_update_stats():
     assert unit1.get_health() == 310
     assert unit1.get_armor() == 59
     assert unit1.get_speed() == 40
+    assert unit1._current_stats.speed == 40

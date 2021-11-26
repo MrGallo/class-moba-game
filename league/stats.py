@@ -1,4 +1,4 @@
-
+import copy
 class Stats:
     def __init__(self, 
                  health: int = 0, 
@@ -22,3 +22,6 @@ class Stats:
     
     def __str__(self):
         return f"heath:{self.health} damage:{self.damage} armor:{self.armor} range:{self.range} speed:{self.speed}"
+    
+    def copy_stats(stats):
+        return copy.copy(stats)
