@@ -30,6 +30,7 @@ class Battle(View):
 
         self.background = pygame.image.load('league\\images\\background.png')
         self.player_surface = pygame.Surface((2400, 5120), pygame.SRCALPHA)
+        self.player_surface_movement = (0,0)
 
         # taken from png properties
         self.BACKGROUND_WIDTH = 2400
@@ -58,7 +59,7 @@ class Battle(View):
         # need background mask not screen
 
         keys_pressed = pygame.key.get_pressed()
-        self.player_controlled_hero.update(screen, keys_pressed)
+        self.player_surface_movement = self.player_controlled_hero.update(screen, self.player_surface_movement, keys_pressed)
 
     
     def draw(self, screen: pygame.Surface) -> None:
@@ -67,15 +68,15 @@ class Battle(View):
 
         self._draw_grid()
 
-        window = self.get_cropped_background_surface(screen, self.background)
+        window = self._cropped_background_surface(screen, self.background)
 
         # draw background and player
         pygame.draw.rect(self.player_surface, (255,0,0), self.player_controlled_hero.get_rect())
         screen.blit(window, (0,0))
-        screen.blit(self.player_surface, (0,0))
+        screen.blit(self.player_surface, self.player_surface_movement)
 
 
-    def get_cropped_background_surface(self, screen: pygame.Surface, background: pygame.Surface):
+    def _cropped_background_surface(self, screen: pygame.Surface, background: pygame.Surface):
         """Creates a crop of the background to use on screen.
         
         Args:
@@ -92,23 +93,29 @@ class Battle(View):
 
         player_x = self.player_controlled_hero.get_rect().x
         player_y = self.player_controlled_hero.get_rect().y
-        player_width = self.player_controlled_hero.get_rect().width
-        cropped_center_x = player_x + (player_width // 2)
-        cropped_center_y = player_y + (player_width // 2)
+        # player_center = self.player_controlled_hero.get_rect().center
+        player_size = self.player_controlled_hero.get_rect().size
+        player_center_x = player_x + (player_size[0] // 2)
+        player_center_y = player_y + (player_size[1] // 2)
 
         screen_rect = screen.get_rect().copy()
 
-        if cropped_center_x < screen_rect.center[0]:
-            cropped_center_x = screen_rect.center[0]
-        elif cropped_center_x > self.BACKGROUND_WIDTH - (screen_rect.center[0]):
-            cropped_center_x = self.BACKGROUND_WIDTH - (screen_rect.center[0])
+        if player_center_x < screen_rect.center[0]:
+            new_val_x = screen_rect.center[0]
+        elif player_center_x > self.BACKGROUND_WIDTH - (screen_rect.center[0]):
+            new_val_x = self.BACKGROUND_WIDTH - (screen_rect.center[0])
+        else:
+            new_val_x = player_center_x
         
-        if cropped_center_y < screen_rect.center[1]:
-            cropped_center_y = screen_rect.center[1]
-        elif cropped_center_y > self.BACKGROUND_HEIGHT - (screen_rect.center[1]):
-            cropped_center_y = self.BACKGROUND_HEIGHT - (screen_rect.center[1])
+        if player_center_y < screen_rect.center[1]:
+            new_val_y = screen_rect.center[1]
+        elif player_center_y > self.BACKGROUND_HEIGHT - (screen_rect.center[1]):
+            new_val_y = self.BACKGROUND_HEIGHT - (screen_rect.center[1])
+        else:
+            new_val_y = player_center_y
 
-        screen_rect.center = (cropped_center_x, cropped_center_y)
+        screen_rect.center = (player_center_x, player_center_y)
+        screen_rect.__setattr__('center', (new_val_x, new_val_y))
 
         background_subsurface = background.subsurface(screen_rect)
 

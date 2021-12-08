@@ -1,6 +1,5 @@
 import pygame
 
-from league.stats import Stats
 from league.unit import Unit
 from league.team import Team
 

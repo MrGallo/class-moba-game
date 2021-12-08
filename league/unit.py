@@ -5,7 +5,7 @@ from .team import Team
 from .ability import Ability
 from .stats import Stats
 
-from typing import Sequence
+from typing import Sequence, Tuple
 
 
 class Unit:
@@ -24,7 +24,7 @@ class Unit:
         "Applies the debuffs onto the unit"
         pass
 
-    def update(self, screen: pygame.Surface, keys_pressed: Sequence[bool]=None):
+    def update(self, screen: pygame.Surface, movement: Tuple[int, int], keys_pressed: Sequence[bool]=None):
         "Updates the player's damage, movement, armor, health, etc..."
 
         if keys_pressed:
@@ -37,25 +37,34 @@ class Unit:
 
             colors = [color_top_left, color_top_right, color_bot_left, color_bot_right]
 
+            # NEED TO MOVE PLAYER_SURFACE AS WELL
+
             if keys_pressed[K_d]:
                 # color = screen.get_at((self._rect.x + self._rect.width + 1, self._rect.y))
                 if colors[1] == ((255,255,255,255)) and colors[3] == ((255,255,255,255)):
                     self._rect.x += self._base_stats.speed
+                    movement[0] -= self._base_stats.speed
             
             if keys_pressed[K_a]:
                 # color = screen.get_at((self._rect.x - 1, self._rect.y))
                 if colors[0] == ((255,255,255,255)) and colors[2] == ((255,255,255,255)):
                     self._rect.x -= self._base_stats.speed
+                    movement[0] += self._base_stats.speed
 
             if keys_pressed[K_s]:
                 # color = screen.get_at((self._rect.x, self._rect.y + self._rect.height + 1))
                 if colors[2] == ((255,255,255,255)) and colors[3] == ((255,255,255,255)):
                     self._rect.y += self._base_stats.speed
+                    movement[1] -= self._base_stats.speed
 
             if keys_pressed[K_w]:
                 # color = screen.get_at((self._rect.x, self._rect.y - 1))
                 if colors[0] == ((255,255,255,255)) and colors[1] == ((255,255,255,255)):
                     self._rect.y -= self._base_stats.speed
+                    movement[1] += self._base_stats.speed
+
+            return movement
+
 
     def get_damage(self) -> int:
         "Gets the unit's damage"
