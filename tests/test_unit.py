@@ -1,7 +1,9 @@
+<<<<<<< HEAD
 import pygame
 
 from league.unit import Unit
 from league.team import Team
+from league.stats import Stats
 
 """
 base_health: int
@@ -28,6 +30,17 @@ t1 = Team()
 t2 = Team()
 r1 = pygame.Rect(100, 100, 30, 30)
 r2 = pygame.Rect(500, 500, 10, 15)
+
+
+def test_can_create_unit(): 
+    team = Team()
+    enemy_team = Team()
+    stats = Stats()
+
+    unit = Unit(stats, team, enemy_team)
+    assert unit.get_stats() is stats
+    assert unit.get_team() is team
+    assert unit.get_enemy_team() is enemy_team
 
 
 def test_unit_attributes():

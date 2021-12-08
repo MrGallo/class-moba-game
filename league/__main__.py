@@ -1,5 +1,4 @@
-from .game import Game
-from .battle import Battle
+from league.game import LeagueOfNoobsGame
 
-game = Game(Battle())
+game = LeagueOfNoobsGame()
 game.run()
